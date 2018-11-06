@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Title</title>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz');
+    @import url('https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic');
+    @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic');
+
+    body {
+      font-family: 'Droid Serif';
+    }
+
+    blockquote {
+      border-left: 4px solid salmon;
+      margin-left: 20px;
+      padding-left: 20px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Yanone Kaffeesatz';
+      font-weight: normal;
+    }
+
+    img {
+      width: 100%;
+    }
+
+    ol li {
+      padding: 6px 0;
+    }
+
+    .remark-code,
+    .remark-inline-code {
+      font-family: 'Ubuntu Mono';
+    }
+  </style>
+</head>
+
+<body>
+  <textarea id="source">
+
+class: center, middle
+
+# Make Your Animations Less Janky with Zanchi
+
+---
+
+# Agenda
+
+1. What is Jank?
+2. Why?
+3. The Render Pipeline
+4. Practical Application
+5. Tooling
+6. Maybe? Animation Design
+
+---
+
+# What is Jank?
+
+--
+
+Animations or transitions that stutter or lag.
+This comes mostly from inconsistent framerate (or really low framerates).
+
+https://googlechrome.github.io/devtools-samples/jank/
+
+---
+
+class: center, middle
+
+# Why?
+
+---
+
+## User Experience
+
+---
+
+# The Render Pipeline
+
+.center.middle[![Render Pipeline](https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-full.jpg)]
+
+This is how your styles go from CSS to being pixels on the screen.
+The browser has to go through this process for every element on the screen.
+
+---
+
+# Style Changes
+
+.center.middle[![Render Pipeline](https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-full.jpg)]
+
+When you make a style change, the browser has to apply those changes.
+
+```css
+
+nav.site-nav ul li {
+  color: gray;
+}
+
+nav.site-nav ul li.active {
+  color: blue;
+}
+
+nav.site-nav ul li.active:last-of-type {
+  color: lightblue;
+}
+```
+
+---
+
+# Layout Changes
+
+.center.middle[![Render Pipeline](https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-full.jpg)]
+
+Changing any properties that affect the geometry of an element cause a reflow/layout change.
+This then causes a repaint, which the compositor then has to put together.
+This is the _most_ expensive type of style change.
+These properties include:
++ `bottom ` / `left` / `right` / `top`
++ `height`
++ `margin`
++ `padding`
++ `width`
+
+---
+
+# Paint Changes
+
+.center.middle[![Render Pipeline](https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-no-layout.jpg)]
+
+Changing any properties that affect the color of an element (besides opacity), will cause a repaint.
+This means the browser doesn't have to calculate the positions of any elements, but it will have to recalculate the color of each pixel within the repaint area.
+This is less expensive than reflows, but can still cause performance issues when trying to repaint large areas.
+These properties include:
+
++ `background`
++ `color`
++ `box-shadow`
+
+---
+
+# Compositor Only Changes
+
+.center.middle[![Render Pipeline](https://developers.google.com/web/fundamentals/performance/rendering/images/intro/frame-no-layout-paint.jpg)]
+
+There are two properties you can change that do not cause a reflow or repaint.
+These two are `opacity` and `transform`.
+These two properties can be changes solely in the compositor, which are relatively cheap operations.
+These are the best properties to use to ensure smooth animations/transitions.
+
+---
+
+# Practical Application
+
+---
+
+# Sources
++ (Highly recommend reading this) https://developers.google.com/web/fundamentals/performance/rendering/
++ https://paul.kinlan.me/what-news-readers-want/
++ http://jankfree.org/
+
+    </textarea>
+  <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+  <script>
+    const slideshow = remark.create();
+  </script>
+</body>
+
+</html>

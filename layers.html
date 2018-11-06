@@ -1,0 +1,36 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Layers</title>
+  <style>
+    div {
+      height: 200px;
+      width: 200px;
+    }
+
+    .a {
+      background: salmon;
+    }
+
+    .b {
+      background: seagreen;
+      transform: translateY(-40px);
+      will-change: transform;
+    }
+
+    .c {
+      background: steelblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="a"></div>
+  <div class="b"></div>
+  <div class="c"></div>
+</body>
+
+</html>
